@@ -1,0 +1,4 @@
+CREATE DATABASE ${MYSQL_DATABASE} CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+GRANT ALL ON ${MYSQL_DATABASE}.* TO ${MYSQL_USER}@'localhost' IDENTIFIED BY 'change-with-strong-password';
+SET PASSWORD FOR 'wordpressuser3'@localhost = PASSWORD(${MYSQL_PASSWORD});
+FLUSH PRIVILEGES;
