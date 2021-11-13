@@ -2,44 +2,19 @@ version: '3'
 
 services:
 
-  # web:
-  #   image: nginx:latest
-  #   restart: always
-  #   ports:
-  #     - "8081:80"
-  #   environment:
-  #     WORDPRESS_DB_HOST: db
-  #     WORDPRESS_DB_USER: ${WORDPRESS_DB_USER}
-  #     WORDPRESS_DB_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-  #     WORDPRESS_DB_NAME: ${MYSQL_DATABASE}
-  #   volumes:
-  #   - ${APP_PATH_HOST}:${APP_PATH_CONTAINER}
-  #   - ./conf/nginx.conf:/etc/nginx/conf.d/nginx.conf
-  #   links:
-  #       - php
-  # php:
-  #   image: php:7-fpm
-  #   restart: always
-  #   volumes:
-  #   - ${APP_PATH_HOST}:${APP_PATH_CONTAINER}
-  nginx:
+  web:
     restart: always
     image: nginx:latest
     ports:
     - 80:80
-    # volumes:
-    # - ./conf/nginx.conf:/etc/nginx/conf.d/
-    # - ./wp-cms-project/:/var/www/
+    volumes:
+    - ./conf/nginx.conf:/etc/nginx/conf.d/nginx.conf
+    - ./wp-cms-project/:/var/www/wp-cms-project/
+    - ./conf/web.sh:/docker-entrypoint-initdb.d/web.sh
+    - ./conf/start-web.sh:/docker-entrypoint-initdb.d/start-web.sh
     links:
-    - php
+      - db
 
-  php:
-    restart: always
-    image: php:7.4-cli
-    # links:
-    # - db
-    # volumes:
-    # - ./wp-cms-project/:/var/www/
 
   db:
     image: mariadb
